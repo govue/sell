@@ -6,6 +6,8 @@ import goods from './components/goods/goods';
 import ratings from './components/ratings/ratings';
 import seller from './components/seller/seller';
 
+/* import './common/stylus/index.styl'; 移动端1像素时引入，但考虑到代码维护，还是要各个组件中单独引入*/
+
 /* eslint-disable no-new */
 Vue.use(VueRouter);
 
