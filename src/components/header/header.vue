@@ -15,10 +15,20 @@
                 <div class="support" v-if="seller.supports">
                     <span class="icon" :class="classMap[seller.supports[3].type]"></span>
                     <span class="text">{{seller.supports[0].description}}</span>
+                    <span class="count">
+                        {{seller.supports.length}}个<i class="icon-keyboard_arrow_right"></i>
+                    </span>
                 </div>
             </div>
         </div>
-        <div class="bulletin-wrapper"></div>
+        <div class="bulletin-wrapper">
+            <span class="icon"></span>
+            <span class="text">{{seller.bulletin}}</span>
+            <i class="icon-keyboard_arrow_right"></i>
+        </div>
+        <div class="background-filter-wrapper">
+            <img :src="seller.avatar" width="100%" height="100%" alt="">
+        </div>
     </div>
 </template>
 
@@ -40,11 +50,13 @@
     @import "../../common/stylus/mixin.styl"
 
     .header
+        position: relative
         color: #fff
-        background: #000
+        background: rgba(7, 17, 27, 0.2)
         .content-wrapper
             padding: 24px 12px 18px 24px
             font-size: 0
+            position: relative
             .avatar
                 display: inline-block
                 vertical-align: top
@@ -76,6 +88,7 @@
                     margin-bottom: 10px
                 .support
                     margin-bottom: 2px
+                    width: 100%;
                     .icon
                         display: inline-block
                         height: 12px
@@ -95,5 +108,49 @@
                     .text
                         display: inline-block
                         font-size: 10px
+                    .count
+                        width: 48px
+                        height: 24px
+                        line-height: 24px
+                        display: inline-block
+                        text-align: center
+                        border-radius: 12px
+                        background-color: rgba(0, 0, 0, 0.2)
+                        position: absolute
+                        right: 12px
+                        bottom: 8px
+        .bulletin-wrapper
+            /*width: 100%*/
+            position: relative
+            height: 28px
+            line-height: 28px
+            padding: 0 22px 0 12px
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+            background-color: rgba(7, 17, 27, 0.2)
+            .icon
+                display: inline-block
+                width: 22px
+                height: 12px
+                vertical-align: middle
+                background-size: 22px 12px
+                bg-image('bulletin')
+            .text
+                font-size: 12px
+            i
+                display: inline-block
+                position: absolute
+                right: 12px
+                bottom: 4px
 
+
+        .background-filter-wrapper
+            position: absolute
+            width: 100%
+            height: 100%
+            left: 0
+            top: 0
+            z-index: -1
+            filter: blur(10px)
 </style>
