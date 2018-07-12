@@ -13,8 +13,8 @@
                     {{seller.description}}/{{seller.deliveryTime}}分钟送达
                 </div>
                 <div class="support" v-if="seller.supports">
-                    <div class="icon"></div>
-                    <div class="text">{{seller.supports[0].description}}</div>
+                    <span class="icon" :class="classMap[seller.supports[3].type]"></span>
+                    <span class="text">{{seller.supports[0].description}}</span>
                 </div>
             </div>
         </div>
@@ -25,9 +25,12 @@
 <script type="text/ecmascript-6">
     export default {
         props: {
-          seller: {
-              type: Object
-          }
+            seller: {
+                type: Object
+            }
+        },
+        created() {
+            this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
         }
     };
 </script>
@@ -44,6 +47,9 @@
             font-size: 0
             .avatar
                 display: inline-block
+                vertical-align: top
+                img
+                    border-radius: 2px
             .content
                 display: inline-block
                 font-size: 14px
@@ -63,5 +69,31 @@
                         font-size: 16px
                         line-height: 18px
                         font-weight: bold
+
+                .description
+                    font-size: 12px
+                    font-weight: 200
+                    margin-bottom: 10px
+                .support
+                    margin-bottom: 2px
+                    .icon
+                        display: inline-block
+                        height: 12px
+                        width: 12px
+                        vertical-align: bottom
+                        background-size 12px 12px
+                        &.decrease
+                            bg-image(decrease_1)
+                        &.discount
+                            bg-image(discount_1)
+                        &.guarantee
+                            bg-image(guarantee_1)
+                        &.invoice
+                            bg-image(invoice_1)
+                        &.special
+                            bg-image(special_1)
+                    .text
+                        display: inline-block
+                        font-size: 10px
 
 </style>
