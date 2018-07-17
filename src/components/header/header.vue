@@ -15,19 +15,36 @@
                 <div class="support" v-if="seller.supports">
                     <span class="icon" :class="classMap[seller.supports[3].type]"></span>
                     <span class="text">{{seller.supports[0].description}}</span>
-                    <span class="count">
+                    <span class="count" @click="showDetail">
                         {{seller.supports.length}}个<i class="icon-keyboard_arrow_right"></i>
                     </span>
                 </div>
             </div>
         </div>
-        <div class="bulletin-wrapper">
+        <div class="bulletin-wrapper" @click="showDetail">
             <span class="icon"></span>
             <span class="text">{{seller.bulletin}}</span>
             <i class="icon-keyboard_arrow_right"></i>
         </div>
         <div class="background-filter-wrapper">
             <img :src="seller.avatar" width="100%" height="100%" alt="">
+        </div>
+        <div class="detail-wrapper clearfix" v-show="detailShow">
+            <div class="detail-box">
+                <div class="content">
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}
+                    {{seller.bulletin}}{{seller.bulletin}}{{seller.bulletin}}
+                    {{seller.bulletin}}{{seller.bulletin}}{{seller.bulletin}}
+                    {{seller.bulletin}}{{seller.bulletin}}{{seller.bulletin}}
+                </div>
+            </div>
+            <div class="detail-close">
+                <i class="icon-close" @click="closeDetail"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +55,19 @@
             seller: {
                 type: Object
             }
+        },
+        data() {
+          return {
+              detailShow: false
+          };
+        },
+        methods: {
+          showDetail() {
+            this.detailShow = true;
+          },
+          closeDetail() {
+              this.detailShow = false;
+          }
         },
         created() {
             this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
@@ -145,7 +175,6 @@
                 right: 12px
                 bottom: 4px
 
-
         .background-filter-wrapper
             position: absolute
             width: 100%
@@ -154,4 +183,22 @@
             top: 0
             z-index: -1
             filter: blur(10px)
+        .detail-wrapper
+            position: fixed
+            top: 0
+            left: 0
+            z-index: 100
+            width: 100%
+            height: 100%
+            overflow: auto
+            background: rgba(7, 17, 27, 0.8)
+            .detail-box
+                min-height: 100%
+                .content
+                    padding: 20px 0 64px 0
+            .detail-close
+                text-align: center
+                margin-top: -64px
+                i
+                    font-size: 32px
 </style>
