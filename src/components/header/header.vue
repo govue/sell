@@ -29,7 +29,7 @@
         <div class="background-filter-wrapper">
             <img :src="seller.avatar" width="100%" height="100%" alt="">
         </div>
-        <div class="detail-wrapper clearfix" v-show="detailShow">
+        <div class="detail-wrapper clearfix" v-show="detailShow" transition="fade">
             <div class="detail-box">
                 <div class="content">
                     <h1 class="name">{{seller.name}}</h1>
@@ -40,11 +40,16 @@
                         <sub-title :name=`优惠信息`></sub-title>
                     </div>
                     <div class="supports">
-                    <div class="supports">
                         <div class="support" v-for="support in seller.supports">
                             <span class="icon" :class="classMap[$index]"></span>
                             <span class="name">{{support.description}}</span>
                         </div>
+                    </div>
+                    <div class="sub-title-wrapper">
+                        <sub-title :name=`商家公告`></sub-title>
+                    </div>
+                    <div class="bulletin">
+                        <span class="content">{{seller.bulletin}}</span>
                     </div>
                 </div>
             </div>
@@ -131,7 +136,7 @@
                     margin-bottom: 10px
                 .support
                     margin-bottom: 2px
-                    width: 100%;
+                    width: 100%
                     .icon
                         display: inline-block
                         height: 12px
@@ -203,7 +208,19 @@
             width: 100%
             height: 100%
             overflow: auto
-            background: rgba(7, 17, 27, 0.8)
+            /*background: rgba(7, 17, 27, 0.8)*/
+            transition: all 0.5s
+            &.fade-transition
+                /*opacity: 1*/
+                background: rgba(7, 17, 27, 0.8)
+            &.fade-enter
+                /*opacity: 0*/
+                background: rgba(7, 17, 27, 0)
+                /*display: block*/
+            &.fade-leave
+                /*opacity: 0*/
+                background: rgba(7, 17, 27, 0)
+                display: none
             .detail-box
                 min-height: 100%
                 .content
@@ -229,6 +246,10 @@
                             line-height: 24px
                             .icon
                                 display: inline-block
+                                width: 16px
+                                height: 16px
+                                background-size: 16px 16px
+                                vertical-align: text-top
                                 &.decrease
                                     bg-image(decrease_1)
                                 &.discount
@@ -239,6 +260,16 @@
                                     bg-image(invoice_1)
                                 &.special
                                     bg-image(special_1)
+                            .name
+                                margin-left: 6px
+                    .bulletin
+                        width: 80%
+                        margin: 24px auto 0 auto
+                        text-align: left
+                        .content
+                            font-size: 12px
+                            font-weight: 200
+                            line-height: 24px
             .detail-close
                 text-align: center
                 margin-top: -64px
