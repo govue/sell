@@ -32,8 +32,19 @@
         <div class="detail-wrapper clearfix" v-show="detailShow">
             <div class="detail-box">
                 <div class="content">
+                    <h1 class="name">{{seller.name}}</h1>
                     <div class="star-wrapper">
                         <star :size="48" :score="seller.score"></star>
+                    </div>
+                    <div class="sub-title-wrapper">
+                        <sub-title :name=`优惠信息`></sub-title>
+                    </div>
+                    <div class="supports">
+                    <div class="supports">
+                        <div class="support" v-for="support in seller.supports">
+                            <span class="icon" :class="classMap[$index]"></span>
+                            <span class="name">{{support.description}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,6 +57,7 @@
 
 <script type="text/ecmascript-6">
     import star from 'components/star/star';
+    import subTitle from 'components/subTitle/subTitle';
 
     export default {
         props: {
@@ -67,7 +79,7 @@
           }
         },
         components: {
-          star
+          star, subTitle
         },
         created() {
             this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
@@ -196,6 +208,37 @@
                 min-height: 100%
                 .content
                     padding: 20px 0 64px 0
+                    text-align: center
+                    h1.name
+                        margin-top: 64px
+                        font-size: 16px
+                        font-weight: 700
+                        line-height: 15px
+                    .star-wrapper
+                        margin-top: 16px
+                    .sub-title-wrapper
+                        display: flex
+                        margin: 28px auto 0 auto
+                        width: 80%
+                    .supports
+                        font-size: 12px
+                        text-align: left
+                        margin: 24px auto 0 auto
+                        width: 80%
+                        .support
+                            line-height: 24px
+                            .icon
+                                display: inline-block
+                                &.decrease
+                                    bg-image(decrease_1)
+                                &.discount
+                                    bg-image(discount_1)
+                                &.guarantee
+                                    bg-image(guarantee_1)
+                                &.invoice
+                                    bg-image(invoice_1)
+                                &.special
+                                    bg-image(special_1)
             .detail-close
                 text-align: center
                 margin-top: -64px
