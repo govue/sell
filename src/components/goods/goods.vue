@@ -8,7 +8,32 @@
                 </li>
             </ul>
         </div>
-        <div class="goods-wrapper"></div>
+        <div class="goods-wrapper">
+            <ul class="goods-box">
+                <li class="good-item" v-for="good in goods">
+                    <h2 class="name">{{good.name}}</h2>
+                    <ul class="foods">
+                        <li class="food-item" v-for="food in good.foods">
+                            <div class="icon">
+                                <img :src="food.icon" width="56" height="56" alt="">
+                            </div>
+                            <div class="content">
+                                <div class="name">{{food.name}}</div>
+                                <div class="description">{{food.description}}</div>
+                                <div class="extra">
+                                    <span>月售{{food.sellCount}}</span>
+                                    <span>好评率{{food.rating}}%</span>
+                                </div>
+                                <div class="price">
+                                    <span class="new-price">¥{{food.price}}</span>
+                                    <span class="old-price" v-if="food.oldPrice">¥{{food.oldPrice}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -51,10 +76,10 @@
         width: 100%
         overflow: hidden
         .menu-wrapper
-            flex: 0 0 80px
-            width: 80px
+            flex: 0 0 68px
+            width: 68px
             background: #f3f5f7
-            padding-left: 24px
+            padding-left: 16px
             ul.menu-items
                 width: 60px
                 li.menu-item
@@ -81,4 +106,49 @@
                         color: #384047
         .goods-wrapper
             flex: 1
+            padding-right: 10px
+            .goods-box
+                .good-item
+                    margin-top: 18px
+                    padding-bottom: 18px
+                    border-1px(bottom, rgba(7, 17, 27, 0.2))
+                    h2.name
+                        font-size: 12px
+                        color: rgb(147, 153, 159)
+                        line-height: 26px
+                        border-left: 2px solid #d9dde1
+                        padding-left: 14px
+                    .foods
+                        .food-item
+                            display: flex
+                            margin-top: 18px
+                            margin-left: 18px
+                            .icon
+                                flex: 0 0 66px
+                                width: 66px
+                            .content
+                                flex: 1
+                                .name
+                                    margin-top: 2px
+                                    font-size: 14px
+                                .description
+                                    margin-top: 8px
+                                    font-size: 10px
+                                    color: rgb(147, 153, 159)
+                                .extra
+                                    margin-top: 8px
+                                    font-size: 8px
+                                    color: rgb(147, 153, 159)
+                                    :nth-child(2)
+                                        margin-left: 5px
+                                .price
+                                    margin-top: 8px
+                                    .new-price
+                                        font-size: 14px
+                                        color: red
+                                        font-weight: 700
+                                    .old-price
+                                        font-size: 10px
+                                        color: rgb(147, 153, 159)
+                                        text-decoration: line-through
 </style>
