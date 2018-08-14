@@ -34,11 +34,13 @@
                 </li>
             </ul>
         </div>
+        <shopping-cart></shopping-cart>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
     import BScroll from 'better-scroll';
+    import shoppingCart from 'components/shoppingcart/shoppingcart';
 
     const ERR_OK = 0;
 
@@ -110,6 +112,9 @@
                 }
                 return 0;
             }
+        },
+        components: {
+            shoppingCart
         }
     };
 </script>
