@@ -2,22 +2,72 @@
     <div class="shoppingcart">
         <div class="left-wrapper">
             <div class="logo">
-                <div class="inner-box">
+                <div class="inner-box" :class="{'height-light':totalCount>0}">
                     <i class="icon-shopping_cart"></i>
+                    <span class="total-count" v-show="totalCount">{{totalCount}}</span>
                 </div>
             </div>
-            <div class="total-price">5元</div>
-            <div class="deliveryPrice">另需要配送费¥4元</div>
+            <div class="total-price" :class="{'height-light':totalPrice>0}">¥{{totalPrice}}元</div>
+            <div class="deliveryPrice">另需要配送费¥{{deliveryPrice}}元</div>
         </div>
-        <div class="right-wrapper">
-            <span>还差¥5元起送</span>
+        <div class="right-wrapper" :class="payClass">
+            <span>{{payDesc}}</span>
         </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
     export default {
-        name: 'shoppingcart'
+        props: {
+            selectFoods: {
+                type: [],
+                default() {
+                    return [
+                        {
+                            price: 10,
+                            count: 2
+                        }
+                    ];
+                }
+            },
+            deliveryPrice: {
+                type: Number
+            },
+            minPrice: {
+                type: Number
+            }
+        },
+        computed: {
+            totalPrice() {
+                let totalPrice = 0;
+                this.selectFoods.forEach((food) => {
+                    totalPrice += food.price * food.count;
+                });
+                return totalPrice;
+            },
+            totalCount() {
+                let totalCount = 0;
+                this.selectFoods.forEach((food) => {
+                    totalCount += food.count;
+                });
+                return totalCount;
+            },
+            payDesc() {
+                if (this.totalPrice === 0) {
+                    return `¥${this.minPrice}元起送`;
+                } else if (this.totalPrice < this.minPrice) {
+                    let diffPrice = this.minPrice - this.totalPrice;
+                    return `还差¥${diffPrice}元`;
+                } else {
+                    return '去结算';
+                }
+            },
+            payClass() {
+                if (this.totalPrice >= this.minPrice) {
+                    return 'height-light';
+                }
+            }
+        }
     };
 </script>
 
@@ -52,6 +102,20 @@
                     display: flex
                     justify-content: center
                     align-items: center
+                    &.height-light
+                        background-color: #00A0DC
+                        .icon-shopping_cart
+                            color: #fff
+                    .total-count
+                        position: absolute
+                        top: 0
+                        right: 0
+                        width: 24px
+                        height: 16px
+                        border-radius: 16px
+                        text-align: center
+                        background-color: red
+                        color: #fff
             .total-price
                 display: inline-block
                 height: 25px
@@ -61,6 +125,8 @@
                 margin-right: 15px
                 padding-right: 15px
                 border-right: 1px solid rgba(255, 255, 255, 0.4)
+                &.height-light
+                    color: #fff
             .deliveryPrice
                 display: inline-block
                 vertical-align: top
@@ -72,5 +138,8 @@
             line-height: 46px
             text-align: center
             background-color: #2B333B
+            &.height-light
+                background-color: #00A0DC
+                color: #fff
 
 </style>
