@@ -29,18 +29,22 @@
                                     <span class="old-price" v-if="food.oldPrice">¥{{food.oldPrice}}</span>
                                 </div>
                             </div>
+                            <div class="cartcontrol-wrapper">
+                                <cart-control :food="food"></cart-control>
+                            </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <shopping-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopping-cart>
+        <shopping-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods"></shopping-cart>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
     import BScroll from 'better-scroll';
     import shoppingCart from 'components/shoppingcart/shoppingcart';
+    import cartControl from 'components/cartcontrol/cartcontrol';
 
     const ERR_OK = 0;
 
@@ -77,7 +81,8 @@
                     click: true
                 });
                 this.goodsScroll = new BScroll(this.$els.goodsWrapper, {
-                    probeType: 3
+                    probeType: 3,
+                    click: true
                 });
                 this.goodsScroll.on('scroll', (pos) => {
                     this.scrollY = Math.abs(Math.round(pos.y));
@@ -111,10 +116,22 @@
                     }
                 }
                 return 0;
+            },
+            selectFoods() {
+                let selectFoods = [];
+                this.goods.forEach((good) => {
+                    good.foods.forEach((food) => {
+                        if (food.count) {
+                            selectFoods.push(food);
+                        }
+                    });
+                });
+                return selectFoods;
             }
         },
         components: {
-            shoppingCart
+            shoppingCart,
+            cartControl
         }
     };
 </script>

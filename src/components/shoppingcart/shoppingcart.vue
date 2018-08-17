@@ -20,14 +20,9 @@
     export default {
         props: {
             selectFoods: {
-                type: [],
+                type: Array,
                 default() {
-                    return [
-                        {
-                            price: 10,
-                            count: 2
-                        }
-                    ];
+                    return [];
                 }
             },
             deliveryPrice: {
@@ -130,12 +125,14 @@
             .deliveryPrice
                 display: inline-block
                 vertical-align: top
-                margin-top: 15px
+                margin-top: 18px
+                font-size: 12px
         .right-wrapper
             flex: 0 0 110px
             width: 110px
             height: 46px
             line-height: 46px
+            font-size: 14px
             text-align: center
             background-color: #2B333B
             &.height-light
