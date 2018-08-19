@@ -1,7 +1,7 @@
 <template>
     <div class="shoppingcart">
         <div class="left-wrapper">
-            <div class="logo">
+            <div class="logo" @click="toggleshowShoppingCart">
                 <div class="inner-box" :class="{'height-light':totalCount>0}">
                     <i class="icon-shopping_cart"></i>
                     <span class="total-count" v-show="totalCount">{{totalCount}}</span>
@@ -13,23 +13,64 @@
         <div class="right-wrapper" :class="payClass">
             <span>{{payDesc}}</span>
         </div>
+        <div class="foodslist-wrapper" v-show="shoppingcartShow">
+            <div class="foodslist-header">
+                <h1 class="name">购物车</h1>
+                <span class="clearshoppingcart" @click="clearShoppingCart">清空</span>
+            </div>
+            <div class="foodslist-box" v-el:foodslist-box>
+                <ul class="foodslist-body">
+                    <li v-for="food in selectFoods"  class="border-1px">
+                        <h2 class="name">{{food.name}}</h2>
+                        <div class="right">
+                            <span class="price">¥{{food.price * food.count}}</span>
+                            <div class="cartcontrol-wrapper">
+                                <cart-control :food="food"></cart-control>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="background-filter-wrapper" v-show="shoppingcartShow" @click="toggleshowShoppingCart"></div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+    import BScroll from 'better-scroll';
+    import cartControl from 'components/cartcontrol/cartcontrol';
+
     export default {
         props: {
             selectFoods: {
-                type: Array,
-                default() {
-                    return [];
-                }
+                type: Array
             },
             deliveryPrice: {
                 type: Number
             },
             minPrice: {
                 type: Number
+            }
+        },
+        data() {
+          return {
+              isHide: true
+          };
+        },
+        methods: {
+            clearShoppingCart() {
+                if (this.totalCount > 0) {
+                    this.selectFoods.forEach((food) => {
+                        food.count = 0;
+                    });
+                }
+                this.isHide = true;
+            },
+            toggleshowShoppingCart() {
+                if (!this.totalCount) {
+                    return;
+                }
+                this.isHide = !this.isHide;
             }
         },
         computed: {
@@ -61,12 +102,40 @@
                 if (this.totalPrice >= this.minPrice) {
                     return 'height-light';
                 }
+            },
+            shoppingcartShow() {
+                if (!this.totalCount) {
+                    this.isHide = true;
+                    return false;
+                }
+                let show = !this.isHide;
+                if (show) {
+                    this.$nextTick(() => {
+                        if (!this.foodsListScroll) {
+                            this.foodsListScroll = new BScroll(this.$els.foodslistBox, {
+                                click: true
+                            });
+                        } else {
+                            this.foodsListScroll.destroy();
+                            this.foodsListScroll = new BScroll(this.$els.foodslistBox, {
+                                click: true
+                            });
+                        }
+                    });
+                }
+                return show;
             }
+        },
+        components: {
+            cartControl
         }
     };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+    @import "../../common/stylus/base.styl" //查询设备像素比
+    @import "../../common/stylus/mixin.styl"    //border-1px函数
+
     .shoppingcart
         display: flex
         position: fixed
@@ -139,4 +208,57 @@
                 background-color: #00A0DC
                 color: #fff
 
+        .foodslist-wrapper
+            position: fixed
+            left: 0
+            bottom: 46px
+            z-index: -1
+            width: 100%
+            max-height: 290px
+            background-color: #fff
+            .foodslist-header
+                height: 40px
+                line-height: 40px
+                background: #f3f5f7
+                color: rgb(7, 17, 27)
+                border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+                padding: 0 18px
+                display: flex
+                justify-content: space-between
+                h1.name
+                    color: #4D555C
+                    display: inline-block
+                span.clearshoppingcart
+                    display: inline-block
+                    color: rgb(0, 160, 220)
+            .foodslist-box
+                width: 100%
+                max-height: 249px
+                overflow: hidden
+                .foodslist-body
+                    color: rgb(7, 17, 27)
+                    padding: 0 18px
+                    li
+                        height: 48px
+                        line-height: 48px
+                        border-1px(bottom, rgba(7, 17, 27, 0.2))
+                        display: flex
+                        justify-content: space-between
+                        h2.name
+                            color: #07111B
+                            display: inline-block
+                        div.right
+                            display: inline-block
+                            .price
+                                color: rgb(240, 20, 20)
+                            .cartcontrol-wrapper
+                                display: inline-block
+        .background-filter-wrapper
+            width: 100%
+            height: 100%
+            position: fixed
+            top: 0
+            left: 0
+            background: rgba(7, 17, 27, 0.6)
+            z-index: -2
 </style>

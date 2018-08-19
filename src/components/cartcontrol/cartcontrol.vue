@@ -12,7 +12,6 @@
     import Vue from 'vue';
 
     export default {
-        name: 'cartcontrol',
         props: {
             food: {
                 type: Object
@@ -33,7 +32,7 @@
                 if (!event._constructed) {
                     return;
                 }
-                if (this.food.count > 0) {
+                if (this.food.count >= 1) {
                     this.food.count--;
                 }
             }
@@ -49,8 +48,8 @@
         font-size: 20px
         .decrease-wrapper
             display: inline-block
-            transition: all 0.4s linear
             &.move-transition
+                transition: all 0.4s linear
                 opacity: 1
                 transform: translate3d(0, 0, 0)
                 .decrease
