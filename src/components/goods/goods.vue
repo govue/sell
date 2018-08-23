@@ -37,7 +37,7 @@
                 </li>
             </ul>
         </div>
-        <shopping-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods"></shopping-cart>
+        <shopping-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods" v-ref:shoppingcart></shopping-cart>
     </div>
 </template>
 
@@ -106,6 +106,9 @@
                 }
                 let el = this.$els.goodsWrapper.getElementsByClassName('good-item')[index];
                 this.goodsScroll.scrollToElement(el, 300);
+            },
+            _drop(target) {
+                this.$refs.shoppingcart.drop(target);
             }
         },
         computed: {
@@ -132,6 +135,11 @@
         components: {
             shoppingCart,
             cartControl
+        },
+        events: {
+            'cart.add'(target) {
+                this._drop(target);
+            }
         }
     };
 </script>
