@@ -77,7 +77,7 @@
                       show: false
                   }
               ],
-              dropBall: []  // 已经下落和小球
+              dropBalls: []  // 已经下落和小球
           };
         },
         methods: {
@@ -101,7 +101,7 @@
                     if (!ball.show) {
                         ball.show = true;
                         ball.el = el;
-                        this.dropBall.push(ball);
+                        this.dropBalls.push(ball);
                         return;
                     }
                 }
