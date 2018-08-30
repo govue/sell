@@ -194,7 +194,7 @@
                     });
                 },
                 afterEnter(el) {
-                    let ball = this.dropBall.shift();
+                    let ball = this.dropBalls.shift();
                     if (ball) {
                         ball.show = false;
                         el.style.display = 'none';
