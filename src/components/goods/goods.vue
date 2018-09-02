@@ -13,22 +13,11 @@
                 <li class="good-item" v-for="good in goods">
                     <h2 class="name">{{good.name}}</h2>
                     <ul class="foods">
-                        <li class="food-item" v-for="food in good.foods">
+                        <li class="food-item" v-for="food in good.foods" @click="showFoodDetail(food,$event)">
                             <div class="icon">
                                 <img :src="food.icon" width="56" height="56" alt="">
                             </div>
-                            <div class="content">
-                                <div class="name">{{food.name}}</div>
-                                <div class="description">{{food.description}}</div>
-                                <div class="extra">
-                                    <span>月售{{food.sellCount}}</span>
-                                    <span>好评率{{food.rating}}%</span>
-                                </div>
-                                <div class="price">
-                                    <span class="new-price">¥{{food.price}}</span>
-                                    <span class="old-price" v-if="food.oldPrice">¥{{food.oldPrice}}</span>
-                                </div>
-                            </div>
+                            <foodbasecontent :food="food"></foodbasecontent>
                             <div class="cartcontrol-wrapper">
                                 <cart-control :food="food"></cart-control>
                             </div>
@@ -37,6 +26,7 @@
                 </li>
             </ul>
         </div>
+        <food :food="selectFood" v-ref:food></food>
         <shopping-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods" v-ref:shoppingcart></shopping-cart>
     </div>
 </template>
@@ -45,6 +35,8 @@
     import BScroll from 'better-scroll';
     import shoppingCart from 'components/shoppingcart/shoppingcart';
     import cartControl from 'components/cartcontrol/cartcontrol';
+    import food from 'components/food/food';
+    import foodbasecontent from 'components/foodbasecontent/foodbasecontent';
 
     const ERR_OK = 0;
 
@@ -58,7 +50,8 @@
             return {
                 goods: [],
                 goodHeightArr: [],
-                scrollY: 0
+                scrollY: 0,
+                selectFood: {}
             };
         },
         created() {
@@ -109,6 +102,15 @@
             },
             _drop(target) {
                 this.$refs.shoppingcart.drop(target);
+            },
+            // 显示food详情
+            showFoodDetail(food, event) {
+                // 屏蔽掉浏览器的click事件，只保留better-scrool的点击事件
+                if (!event._constructed) {
+                    return;
+                }
+                this.selectFood = food; // 将选定的food赋值给this.selectFood，以便传递给food组件
+                this.$refs.food.show();
             }
         },
         computed: {
@@ -134,7 +136,9 @@
         },
         components: {
             shoppingCart,
-            cartControl
+            cartControl,
+            food,
+            foodbasecontent
         },
         events: {
             'cart.add'(target) {
@@ -211,29 +215,4 @@
                             .icon
                                 flex: 0 0 66px
                                 width: 66px
-                            .content
-                                flex: 1
-                                .name
-                                    margin-top: 2px
-                                    font-size: 14px
-                                .description
-                                    margin-top: 8px
-                                    font-size: 10px
-                                    color: rgb(147, 153, 159)
-                                .extra
-                                    margin-top: 8px
-                                    font-size: 8px
-                                    color: rgb(147, 153, 159)
-                                    :nth-child(2)
-                                        margin-left: 5px
-                                .price
-                                    margin-top: 8px
-                                    .new-price
-                                        font-size: 14px
-                                        color: red
-                                        font-weight: 700
-                                    .old-price
-                                        font-size: 10px
-                                        color: rgb(147, 153, 159)
-                                        text-decoration: line-through
 </style>
