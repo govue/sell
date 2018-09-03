@@ -3,9 +3,9 @@
         <div class="ratings-select">
             <h1 class="name">商品评价</h1>
             <div class="rate-type">
-                <span class="all">全部<i>30</i></span>
-                <span class="positive">全部<i>30</i></span>
-                <span class="negative">全部<i>30</i></span>
+                <span class="all" :class="{'active':rateType===2}" @click="selectRateType(2,$event)">{{desc.all}}<i>{{ratings.length}}</i></span>
+                <span class="positive" :class="{'active':rateType===0}" @click="selectRateType(0,$event)">{{desc.positive}}<i>{{positives.length}}</i></span>
+                <span class="negative" :class="{'active':rateType===1}" @click="selectRateType(1,$event)">{{desc.negative}}<i>{{negatives.length}}</i></span>
             </div>
             <div class="have-rating-content">
                 <i class="icon-check_circle"></i>
@@ -15,26 +15,15 @@
         <div class="ratings-content">
             <div class="ratings-wrapper">
                 <ul>
-                    <li>
+                    <li v-for="rating in ratings" v-show="filterRatings(rating.rateType)">
                         <div class="left">
-                            <span class="time">2018-08-12  00:00</span>
+                            <span class="time">{{rating.rateTime}}</span>
                             <div class="text">
-                                <i class="icon-thumb_up"></i><p>非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃</p>
+                                <i :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></i><p>{{rating.text}}</p>
                             </div>
                         </div>
                         <div class="right">
-                            <span class="username">XXXXXXXx</span><img src="http://static.galileo.xiaojukeji.com/static/tms/default_header.png" alt="">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="left">
-                            <span class="time">2018-08-12  00:00</span>
-                            <div class="text">
-                                <i></i><p>非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃</p>
-                            </div>
-                        </div>
-                        <div class="right">
-                            <span class="username">XXXXXXXx</span><img src="http://static.galileo.xiaojukeji.com/static/tms/default_header.png" alt="">
+                            <span class="username">{{rating.username}}</span><img :src="rating.avatar" alt="">
                         </div>
                     </li>
                 </ul>
@@ -44,8 +33,77 @@
 </template>
 
 <script type="text/ecmascript-6">
+    const ALL = 2;
+    const POSITIVE = 0;
+    const NEGATIVE = 1;
+
     export default {
-        name: 'showratings'
+        name: 'showratings',
+        props: {
+            ratings: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            rateType: {
+                type: Number,
+                default() {
+                    return ALL;
+                }
+            },
+            haveRatingContent: {
+                type: Boolean,
+                default() {
+                    return true;
+                }
+            },
+            desc: {
+                type: Object,
+                default() {
+                    return {
+                        all: '全部',
+                        positive: '满意',
+                        negative: '不满意'
+                    };
+                }
+            }
+        },
+        methods: {
+            selectRateType(type, event) {
+                if (!event._constructed) {
+                    return;
+                }
+                console.log('selectRateType in showratings.vue');
+                this.rateType = type;
+                this.$dispatch('ratetype.select', this.rateType);
+            },
+            filterRatings(rateType) {
+                // 如果只显示有内容的评论
+                // if (this.haveRatingContent) {
+                //     if (!ratingText) {
+                //         return false;
+                //     }
+                // }
+                if (this.rateType === ALL) {
+                    return true;
+                } else {
+                    return rateType === this.rateType;
+                }
+            }
+        },
+        computed: {
+            positives() {
+                return this.ratings.filter((rating) => {
+                    return rating.rateType === POSITIVE;
+                });
+            },
+            negatives() {
+                return this.ratings.filter((rating) => {
+                    return rating.rateType === NEGATIVE;
+                });
+            }
+        }
     };
 </script>
 
@@ -68,16 +126,25 @@
                     line-height: 32px
                     margin-right: 8px
                     color: rgb(77, 85, 93)
-                    font-size: 16px
+                    font-size: 14px
                     text-align: center
                     vertical-align: middle
                     margin-bottom: 18px
                     &.all
-                        background-color: rgb(0, 160, 220)
+                        background-color: rgba(0, 160, 220, 0.2)
+                        &.active
+                            background-color: rgb(0, 160, 220)
+                            color: #fff
                     &.positive
                         background-color: rgba(0, 160, 220, 0.2)
+                        &.active
+                            background-color: rgb(0, 160, 220)
+                            color: #fff
                     &.negative
                         background-color: rgba(77, 85, 93, 0.2)
+                        &.active
+                            background-color: rgb(77, 85, 93)
+                            color: #fff
             .have-rating-content
                 height: 24px
                 line-height: 24px

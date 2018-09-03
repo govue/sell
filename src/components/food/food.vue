@@ -25,7 +25,7 @@
             </div>
             <split></split>
             <div class="food-ratings">
-                <food-ratings></food-ratings>
+                <food-ratings :ratings="food.ratings" :rate-type="rateType" :have-ratging-content="haveRatingContent" :desc="desc"></food-ratings>
             </div>
 
 
@@ -41,6 +41,10 @@
     import split from 'components/split/split';
     import foodRatings from 'components/showratings/showratings';
 
+    const ALL = 2;
+    // const POSITIVE = 0;
+    // const NEGATIVE = 1;
+
     export default {
         name: 'food',
         props: {
@@ -50,12 +54,22 @@
         },
         data() {
             return {
-                showFlag: false
+                showFlag: false,
+                rateType: ALL,
+                haveRatingContent: true,
+                desc: {
+                    all: '全部',
+                    positive: '推荐',
+                    negative: '不推荐'
+                }
             };
         },
         methods: {
             show() {
                 this.showFlag = true;
+                // 初始化showratings组件默认数据
+                this.rateType = ALL;
+                this.haveRatingContent = true;
                 this.$nextTick(() => {
                     if (!this.foodScroll) {
                         this.foodScroll = new BScroll(this.$els.food, {
@@ -83,6 +97,14 @@
             cartcontrol,
             split,
             foodRatings
+        },
+        events: {
+            'ratetype.select'(type) {
+                this.rateType = type;
+                this.$nextTick(() => {
+                    this.foodScroll.refresh();
+                });
+            }
         }
     };
 </script>
