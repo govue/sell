@@ -182,9 +182,10 @@
                         }
                     }
                 },
-                enter(el) {
+                enter(el, done) {
                     /* eslint-disable no-unused-vars */
-                    let rf = el.offestHeight;
+                    // let rf = el.offsetHeight;
+                    el.offsetHeight;
                     this.$nextTick(() => {
                         el.style.webkitTransform = 'translate3d(0, 0, 0)';
                         el.style.transform = 'translate3d(0, 0, 0)';
@@ -192,6 +193,7 @@
                         inner.style.webkitTransform = 'translate3d(0, 0, 0)';
                         inner.style.transform = 'translate3d(0, 0, 0)';
                     });
+                    el.addEventListener('transitionend', done);
                 },
                 afterEnter(el) {
                     let ball = this.dropBalls.shift();
@@ -341,11 +343,11 @@
                 right: 32px
                 z-index: 200
                 &.drop-transition
-                    transition: all 0.4
+                    transition: all 0.4 linear
                     .inner
                         width: 16px
                         height: 16px
                         border-radius: 50%
                         background-color: rgb(0, 160, 220)
-                        transition: all 0.4
+                        transition: all 0.4 linear
 </style>

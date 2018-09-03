@@ -13,18 +13,32 @@
             </div>
         </div>
         <div class="ratings-content">
-            <div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br><div>aa</div>
-            <br>
+            <div class="ratings-wrapper">
+                <ul>
+                    <li>
+                        <div class="left">
+                            <span class="time">2018-08-12  00:00</span>
+                            <div class="text">
+                                <i class="icon-thumb_up"></i><p>非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <span class="username">XXXXXXXx</span><img src="http://static.galileo.xiaojukeji.com/static/tms/default_header.png" alt="">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span class="time">2018-08-12  00:00</span>
+                            <div class="text">
+                                <i></i><p>非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃非常好吃</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <span class="username">XXXXXXXx</span><img src="http://static.galileo.xiaojukeji.com/static/tms/default_header.png" alt="">
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -73,4 +87,40 @@
                 .text
                     vertical-align: top
                     color: rgb(147, 153, 159)
+        .ratings-content
+            padding: 0 18px 18px 18px
+            .ratings-wrapper
+                li
+                    display: flex
+                    margin-bottom: 16px
+                    padding-bottom: 16px
+                    border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+                    .left
+                        flex: 1
+                        .time
+                            font-size: 10px
+                            line-height: 12px
+                            margin-bottom: 6px
+                            color: rgb(147, 153, 159)
+                        .text
+                            .icon-thumb_up
+                                position: absolute;
+                                font-size: 12px
+                                color: rgb(147, 153, 159)
+                            p
+                                display: inline-block
+                                padding-left: 18px
+                                font-size: 12px
+                                color: rgb(7, 17, 27)
+                                line-height: 16px
+                    .right
+                        flex: 0 0 74px
+                        .username
+                            font-size: 12px
+                            margin-right: 6px
+                        img
+                            width: 12px
+                            height: 12px
+                            border-radius: 50%
+
 </style>
