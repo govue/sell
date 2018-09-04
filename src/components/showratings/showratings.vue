@@ -7,15 +7,15 @@
                 <span class="positive" :class="{'active':rateType===0}" @click="selectRateType(0,$event)">{{desc.positive}}<i>{{positives.length}}</i></span>
                 <span class="negative" :class="{'active':rateType===1}" @click="selectRateType(1,$event)">{{desc.negative}}<i>{{negatives.length}}</i></span>
             </div>
-            <div class="have-rating-content">
-                <i class="icon-check_circle"></i>
+            <div class="have-rating-content" @click="showHaveRatingContent($event)">
+                <i class="icon-check_circle" :class="{'active':haveRatingContent===true}"></i>
                 <span class="text">只看有内容的评价</span>
             </div>
         </div>
         <div class="ratings-content">
             <div class="ratings-wrapper">
                 <ul>
-                    <li v-for="rating in ratings" v-show="filterRatings(rating.rateType)">
+                    <li v-for="rating in ratings" v-show="filterRatings(rating.rateType,rating.text)">
                         <div class="left">
                             <span class="time">{{rating.rateTime}}</span>
                             <div class="text">
@@ -55,7 +55,7 @@
             haveRatingContent: {
                 type: Boolean,
                 default() {
-                    return true;
+                    return false;
                 }
             },
             desc: {
@@ -75,16 +75,23 @@
                     return;
                 }
                 console.log('selectRateType in showratings.vue');
-                this.rateType = type;
-                this.$dispatch('ratetype.select', this.rateType);
+                // this.rateType = type;    // 这里可以直接在自身组件里更新数据，然后dispatch事件只是用来更新dom长度
+                this.$dispatch('ratetype.select', type); // 这里是把dispatch后把数据传出去，再通过组件传回来
             },
-            filterRatings(rateType) {
+            showHaveRatingContent(event) {
+                if (!event._constructed) {
+                    return;
+                }
+                this.haveRatingContent = !this.haveRatingContent;
+                this.$dispatch('haveratingcontent.toggle');
+            },
+            filterRatings(rateType, ratingText) {
                 // 如果只显示有内容的评论
-                // if (this.haveRatingContent) {
-                //     if (!ratingText) {
-                //         return false;
-                //     }
-                // }
+                if (this.haveRatingContent) {
+                    if (!ratingText) {
+                        return false;
+                    }
+                }
                 if (this.rateType === ALL) {
                     return true;
                 } else {
@@ -151,6 +158,8 @@
                 i
                     font-size: 24px
                     color: rgb(147, 153, 159)
+                    &.active
+                        color: rgb(0, 180, 60)
                 .text
                     vertical-align: top
                     color: rgb(147, 153, 159)

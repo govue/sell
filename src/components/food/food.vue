@@ -69,7 +69,7 @@
                 this.showFlag = true;
                 // 初始化showratings组件默认数据
                 this.rateType = ALL;
-                this.haveRatingContent = true;
+                this.haveRatingContent = false;
                 this.$nextTick(() => {
                     if (!this.foodScroll) {
                         this.foodScroll = new BScroll(this.$els.food, {
@@ -101,6 +101,12 @@
         events: {
             'ratetype.select'(type) {
                 this.rateType = type;
+                this.$nextTick(() => {
+                    this.foodScroll.refresh();
+                });
+            },
+            'haveratingcontent.toggle'() {
+                // this.haveRatingContent = flag;
                 this.$nextTick(() => {
                     this.foodScroll.refresh();
                 });
