@@ -25,7 +25,7 @@
             </div>
             <split></split>
             <div class="food-ratings">
-                <food-ratings :ratings="food.ratings" :rate-type="rateType" :have-ratging-content="haveRatingContent" :desc="desc"></food-ratings>
+                <food-ratings :ratings="food.ratings" :rate-type="rateType" :have-ratging-content="haveRatingContent" :desc="desc" :ratings-flag=`food`></food-ratings>
             </div>
 
 
