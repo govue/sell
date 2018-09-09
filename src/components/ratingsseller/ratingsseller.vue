@@ -3,7 +3,7 @@
         <ul>
             <li v-for="rating in ratings" v-show="filterRatings(rating.rateType,rating.text)">
                 <div class="left">
-                    <span class="time">{{rating.rateTime}}</span>
+                    <span class="time">{{rating.rateTime | formatDate}}</span>
                     <div class="text">
                         <i :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></i><p>{{rating.text}}</p>
                     </div>
@@ -17,6 +17,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import {formatDate} from 'common/js/date';
+
     const ALL = 2;
 
     export default {
@@ -54,6 +56,12 @@
                 } else {
                     return rateType === this.rateType;
                 }
+            }
+        },
+        filters: {
+            formatDate(time) {
+                let date = new Date(time);
+                return formatDate(date, 'yyyy-MM-dd hh:mm');
             }
         }
     };
