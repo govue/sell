@@ -39,12 +39,7 @@
                     <div class="sub-title-wrapper">
                         <sub-title :name=`优惠信息`></sub-title>
                     </div>
-                    <div class="supports">
-                        <div class="support" v-for="support in seller.supports">
-                            <span class="icon" :class="classMap[$index]"></span>
-                            <span class="name">{{support.description}}</span>
-                        </div>
-                    </div>
+                    <supports :supports="seller.supports"></supports>
                     <div class="sub-title-wrapper">
                         <sub-title :name=`商家公告`></sub-title>
                     </div>
@@ -63,6 +58,7 @@
 <script type="text/ecmascript-6">
     import star from 'components/star/star';
     import subTitle from 'components/subTitle/subTitle';
+    import supports from 'components/supports/supports';
 
     export default {
         props: {
@@ -84,7 +80,7 @@
           }
         },
         components: {
-          star, subTitle
+          star, subTitle, supports
         },
         created() {
             this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
