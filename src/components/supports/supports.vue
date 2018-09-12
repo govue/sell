@@ -22,6 +22,8 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+    @import "../../common/stylus/mixin.styl"
+
     .support
         margin-bottom: 2px
         width: 100%

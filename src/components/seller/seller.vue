@@ -33,12 +33,14 @@
             <h1>公告与活动</h1>
             <p>{{seller.bulletin}}</p>
         </div>
+        <supports :supports="seller.supports"></supports>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
     import star from 'components/star/star';
     import split from 'components/split/split';
+    import supports from 'components/supports/supports';
 
     export default {
         name: 'seller',
@@ -49,7 +51,8 @@
         },
         components: {
             star,
-            split
+            split,
+            supports
         }
     };
 </script>
