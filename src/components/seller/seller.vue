@@ -7,9 +7,9 @@
                     <div class="seller-star"><div class="star-wrapper"><star :size="36" :score="seller.score"></star></div><span class="rating-count">({{seller.ratingCount}})</span><span class="sell-count">月售{{seller.sellCount}}单</span></div>
                 </div>
                 <div class="right">
-                    <div class="favorite">
-                        <i></i>
-                        <span>未收藏</span>
+                    <div class="favorite" @click="toggleFavorite($event)">
+                        <i class="icon-favorite" :class="{'active':favorite}"></i>
+                        <span>{{favoriteText}}</span>
                     </div>
                 </div>
             </div>
@@ -41,6 +41,7 @@
     import star from 'components/star/star';
     import split from 'components/split/split';
     import supports from 'components/supports/supports';
+    import {saveToLocal, loadFromLocal} from 'common/js/store';
 
     export default {
         name: 'seller',
@@ -48,6 +49,27 @@
             seller: {
                 type: Object
             }
+        },
+        data() {
+          return {
+              favorite: (() => {
+                  return loadFromLocal(this.seller.id, 'favorite', false);
+              })()
+          };
+        },
+        methods: {
+            toggleFavorite(event) {
+                // if (!event._constructed) {
+                //     return;
+                // }
+                this.favorite = !this.favorite;
+                saveToLocal(this.seller.id, 'favorite', this.favorite);
+            }
+        },
+        computed: {
+          favoriteText() {
+              return this.favorite ? '已收藏' : '未收藏';
+          }
         },
         components: {
             star,
@@ -81,6 +103,12 @@
                 .right
                     flex: 0 0 120px
                     width: 120px
+                    .favorite
+                        text-align: center
+                        i
+                            display: block
+                            &.active
+                                color: rgb(240, 20, 20)
             ul
                 display: flex
                 li
